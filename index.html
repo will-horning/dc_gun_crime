@@ -1,21 +1,79 @@
+
+
+<!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css" />
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Foo : ">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/prism.css">
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.min.css">
     <link rel="stylesheet" href="static/css/iThing.css">
     <link rel="stylesheet" href="static/css/app.css">
-</head>
-<body>
-    <div id="map" style="position:absolute;top:0;bottom:0;width:100%;"></div>
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css" />
+
+
+    <script type="text/javascript" src="static/js/lib/prism.js"></script>
+    <title>Foo</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/will-horning/dc_gun_crime">View on GitHub</a>
+
+          <h1 id="project_title">DC Gun Crime</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/will-horning/dc_gun_crime/zipball/gh-pages">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/will-horning/dc_gun_crime/tarball/gh-pages">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+<h3>
+<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Ipsum Lorem</h3>
+
+<p> Map: </p>
+
+    <div id="map" style="position:relative;height:700px"></div>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="static/js/lib/leaflet-heat.js"></script>
-    <script src="static/js/lib/bundle.js"></script>
     <script src="static/js/lib/jquery-ui-1.10.0.custom.min.js"></script>
     <script src="static/js/lib/jquery-ui-timepicker-addon.js"></script>
     <script src="static/js/lib/jQDateRangeSlider-min.js"></script>
     <script src="static/js/lib/jQDateRangeControl.js"></script>
-</body>
+    <script src="static/js/lib/bundle.js"></script>
+
+<div id="slider"></div>
+<script>
+$('#slider').rangeSlider();
+</script>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">dc_gun_crime maintained by <a href="https://github.com/will-horning">will-horning</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
 </html>
