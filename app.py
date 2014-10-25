@@ -1,13 +1,16 @@
+import os
 from flask import Flask, render_template
 from flask.ext.cake import Cake
+from flaskext.markdown import Markdown
 
 app = Flask(__name__, template_folder='./')
-app.config['DEBUG'] = True
 cake = Cake(app)
+m = Markdown(app)
+
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(host='192.168.1.12', debug=True)
+    app.run(host='0.0.0.0', debug=True)

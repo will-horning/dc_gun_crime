@@ -29,6 +29,7 @@ $(document).ready(function() {
   control = new L.Control.DateSlider().addTo(map);
   date_start = new Date(2011, 1, 2, 11, 20);
   date_end = new Date(2013, 10, 24, 21, 55);
+  console.log($('#dateSlider'));
   $("#dateSlider").dateRangeSlider({
     bounds: {
       min: date_start,
