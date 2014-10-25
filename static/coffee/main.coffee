@@ -27,19 +27,22 @@ $(document).ready ->
         }
     })
     $('#dateSlider').on('valuesChanging', (e, data) ->
-        map.removeLayer(matchMarkers)
-        matchMarkers = L.layerGroup().addTo(map)
-        for match in matches
+        for [match, marker] in matchMarkerPairs
             lat = match[0]['Latitude-100meter']
             lng = match[0]['Longitude-100meter']
             date = new Date(match[0]['Date_Time_UT'] * 1000)
             if date > data.values.min and date < data.values.max
-                m = L.marker([lat, lng])
-                matchMarkers.addLayer(m)        
+                if not matchMarkers.hasLayer(marker)
+                    matchMarkers.addLayer(marker)
+            else
+                matchMarkers.removeLayer(marker)   
+
     )
 
+    matchMarkerPairs = []
     for match in matches
         lat = match[0]['Latitude-100meter']
         lng = match[0]['Longitude-100meter']
         m = L.marker([lat, lng])
         matchMarkers.addLayer(m)
+        matchMarkerPairs.push([match, m])
