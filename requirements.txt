@@ -1,5 +1,6 @@
 Flask==0.10.1
 Flask-Cake==0.3.0
+Frozen-Flask==0.11
 Jinja2==2.7.3
 MarkupSafe==0.23
 PyYAML==3.11
@@ -7,6 +8,7 @@ Werkzeug==0.9.6
 argh==0.25.0
 argparse==1.2.1
 gunicorn==19.1.1
+ipython==2.3.0
 itsdangerous==0.24
 jdcal==1.0
 openpyxl==2.1.2
