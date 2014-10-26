@@ -17,7 +17,7 @@ js = Bundle(
     'js/lib/jQDateRangeSlider-min.js',
     'js/lib/main.js',
     filters='jsmin',
-    output='js/lib/bundle.js'
+    output='js/lib/bundle.%(version)s.js'
 )
 
 css = Bundle(
@@ -27,7 +27,7 @@ css = Bundle(
     'css/leaflet.css',
     'css/iThing.css',
     filters='cssmin',
-    output='css/bundle.css'
+    output='css/bundle.%(version)s.css'
 )
 
 assets.register('js_all', js)
@@ -35,7 +35,7 @@ assets.register('css_all', css)
 
 @app.route('/', methods=['GET'])
 def index():
-    with open('./index.html') as f:
+    with open('./index.html', 'w') as f:
         f.write(render_template('index.html'))
     return render_template('index.html')
 
