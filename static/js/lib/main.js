@@ -7,6 +7,8 @@ MAP_CENTER = [38.907, -77.0368];
 
 MAP_ZOOM = 11;
 
+console.log('boasdfodo');
+
 $(document).ready(function() {
   var date_end, date_start, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, _i, _len;
   L.Icon.Default.imagePath = 'static/images';
@@ -20,7 +22,11 @@ $(document).ready(function() {
     match = matches[_i];
     lat = match[0]['Latitude-100meter'];
     lng = match[0]['Longitude-100meter'];
-    m = L.marker([lat, lng]);
+    m = L.marker([lat, lng], {
+      icon: L.icon({
+        iconUrl: 'static/images/shooting.png'
+      })
+    });
     m.bindPopup(L.popup({
       className: 'matchPopup'
     }).setContent('foobar'));

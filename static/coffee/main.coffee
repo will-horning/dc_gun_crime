@@ -2,21 +2,22 @@ matches = require '../json/matches.json'
 
 MAP_CENTER = [38.907, -77.0368]
 MAP_ZOOM = 11
- 
+console.log 'boasdfodo' 
+
 $(document).ready -> 
     L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
     L.tileLayer(
         'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 
         {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}
-    ).addTo(map);
+    ).addTo(map) 
     
     matchMarkers = L.layerGroup().addTo(map)
     matchMarkerPairs = []
     for match in matches
         lat = match[0]['Latitude-100meter']
         lng = match[0]['Longitude-100meter']
-        m = L.marker([lat, lng])
+        m = L.marker([lat, lng], {icon: L.icon({iconUrl: 'static/images/shooting.png'})})
         m.bindPopup(L.popup({className: 'matchPopup'}).setContent('foobar'))
         matchMarkers.addLayer(m)
         matchMarkerPairs.push([match, m])
