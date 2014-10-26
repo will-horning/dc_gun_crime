@@ -9,10 +9,10 @@
     <meta name="description" content="DC Gun Crime : ">
 
     <link rel="stylesheet" type="text/css" media="screen" href="static/css/stylesheet.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="static/css/prism.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="static/css/jquery-ui-1.10.0.custom.min.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="static/css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="static/css/iThing.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/prism.css"/>
     <script type="text/javascript" src="static/js/lib/prism.js"></script>
     <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
     <script type="text/javascript" src="static/js/lib/leaflet.js"></script>
@@ -53,6 +53,32 @@
         <p> Map: </p>
         <div id="slider"></div><br>
         <div id="map" style="position:relative;height:700px"></div>
+
+
+        <h3>
+          <a name="designer-templates" class="anchor" href="#designer-templates">
+            <span class="octicon octicon-link"></span></a>
+            Converting State Plane Coordinates
+        </h3>
+        <p>
+          The crime data uses the Maryland state plane coordinate system, whereas the Shotspotter data uses decimal latitude and longitude. Since its easier to use Lat,Lon coordinates with Leaflet, I converted the SPCS coordinates in the crime data to Lat,Lon using the script below. This code depends on the GDAL library, and I could not find a way to get it working inside virtualenv, so if you want to run this script you'll have to run install it globally. 
+
+          The bx-python package includes a fast interval tree to find overlapping time ranges. In this case, I just to need to find any crime whose datetime ranges include the datetime of a shotspotter event.
+          <pre>
+          <code class="language-python">
+from bx.intervals.intersection import Intersecter, Interval
+
+tree = Intersecter()
+crimes = [c for c in crimes if c not in bad_crime_dates]
+for crime in crimes:
+  start, end = crime['START_DATE_UT'], crime['END_DATE_UT']
+  try:
+    tree.add_interval(Interval(int(start), int(end), crime))
+  except OverflowError:
+    print start, end
+          </code></pre>
+        </p>
+
       </section>
     </div>
 
