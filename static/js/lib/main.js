@@ -32,7 +32,7 @@ $(document).ready(function() {
     matchMarkerPairs.push([match, m]);
   }
   date_start = new Date(2011, 1, 2, 11, 20);
-  date_end = new Date(2013, 10, 24, 21, 55);
+  date_end = new Date(2013, 6, 22, 21, 55);
   $("#slider").dateRangeSlider({
     bounds: {
       min: date_start,
