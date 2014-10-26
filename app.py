@@ -18,7 +18,7 @@ js = Bundle(
 	'js/lib/jQDateRangeSlider-min.js',
 	'js/lib/main.js',
 	filters='jsmin',
-	output='bundle.js'
+	output='js/lib/bundle.js'
 )
 
 css = Bundle(
@@ -28,7 +28,7 @@ css = Bundle(
 	'css/leaflet.css',
 	'css/iThing.css',
 	filters='cssmin',
-	output='bundle.css'
+	output='css/bundle.css'
 )
 
 assets.register('js_all', js)
