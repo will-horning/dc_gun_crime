@@ -29,8 +29,7 @@ $(document).ready(function() {
   control = new L.Control.DateSlider().addTo(map);
   date_start = new Date(2011, 1, 2, 11, 20);
   date_end = new Date(2013, 10, 24, 21, 55);
-  console.log($('#dateSlider'));
-  $("#dateSlider").dateRangeSlider({
+  $("#slider").dateRangeSlider({
     bounds: {
       min: date_start,
       max: date_end
@@ -40,7 +39,7 @@ $(document).ready(function() {
       max: date_end
     }
   });
-  return $('#dateSlider').on('valuesChanging', function(e, data) {
+  return $('#slider').on('valuesChanging', function(e, data) {
     var date, marker, _j, _len1, _ref, _results;
     _results = [];
     for (_j = 0, _len1 = matchMarkerPairs.length; _j < _len1; _j++) {
