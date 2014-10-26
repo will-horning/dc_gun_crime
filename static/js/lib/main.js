@@ -7,8 +7,6 @@ MAP_CENTER = [38.907, -77.0368];
 
 MAP_ZOOM = 11;
 
-console.log('boasdfodo');
-
 $(document).ready(function() {
   var date_end, date_start, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, _i, _len;
   L.Icon.Default.imagePath = 'static/images';

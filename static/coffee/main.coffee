@@ -2,8 +2,6 @@ matches = require '../json/matches.json'
 
 MAP_CENTER = [38.907, -77.0368]
 MAP_ZOOM = 11
-console.log 'boasdfodo' 
-
 $(document).ready -> 
     L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
