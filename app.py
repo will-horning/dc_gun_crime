@@ -4,7 +4,7 @@ from flask.ext.cake import Cake
 from flaskext.markdown import Markdown
 from flask.ext.assets import Environment, Bundle
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='./')
 cake = Cake(app)
 m = Markdown(app)
 assets = Environment(app)
