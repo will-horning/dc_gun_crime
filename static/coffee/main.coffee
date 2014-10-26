@@ -4,6 +4,7 @@ MAP_CENTER = [38.907, -77.0368]
 MAP_ZOOM = 11
  
 $(document).ready -> 
+    L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
     L.tileLayer(
         'http://{s}.tile.osm.org/{z}/{x}/{y}.png', 
@@ -20,7 +21,6 @@ $(document).ready ->
         matchMarkers.addLayer(m)
         matchMarkerPairs.push([match, m])
 
-    control = new L.Control.DateSlider().addTo(map);
     date_start = new Date(2011, 1, 2, 11, 20)
     date_end = new Date(2013, 10, 24, 21, 55)
     $("#slider").dateRangeSlider({
