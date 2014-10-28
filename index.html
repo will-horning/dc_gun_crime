@@ -55,7 +55,7 @@
         <h3>
           <a name="designer-templates" class="anchor" href="#designer-templates">
             <span class="octicon octicon-link"></span></a>
-          Ipsum Lorem
+
         </h3>
         <p> Map: </p>
         <div id="slider"></div><br>
@@ -70,19 +70,9 @@
         <p>
           The crime data uses the Maryland state plane coordinate system, whereas the Shotspotter data uses decimal latitude and longitude. Since its easier to use Lat,Lon coordinates with Leaflet, I converted the SPCS coordinates in the crime data to Lat,Lon using the script below. This code depends on the GDAL library, and I could not find a way to get it working inside virtualenv, so if you want to run this script you'll have to run install it globally. 
 
-          The bx-python package includes a fast interval tree to find overlapping time ranges. In this case, I just to need to find any crime whose datetime ranges include the datetime of a shotspotter event.
           <pre>
           <code class="language-python">
-from bx.intervals.intersection import Intersecter, Interval
 
-tree = Intersecter()
-crimes = [c for c in crimes if c not in bad_crime_dates]
-for crime in crimes:
-  start, end = crime['START_DATE_UT'], crime['END_DATE_UT']
-  try:
-    tree.add_interval(Interval(int(start), int(end), crime))
-  except OverflowError:
-    print start, end
           </code></pre>
         </p>
 
