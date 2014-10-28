@@ -54,3 +54,25 @@ $(document).ready ->
                 matchMarkers.removeLayer(marker)   
     )
 
+    offenses = {}
+    for [shot, crime] in matches
+        if crime.OFFENSE of offenses
+            offenses[crime.OFFENSE] += 1
+        else
+            offenses[crime.OFFENSE] = 1
+
+    data = {
+        labels: k for k, v of offenses,
+        datasets: [
+            {
+                label: 'My First dataset',
+                fillColor: '#ff0000',
+                strokeColor: 'rgba(220,220,220,0.8)',
+                highlightFill: 'rgba(220,220,220,0.75)',
+                highlightStroke: 'rgba(220,220,220,1)',
+                data: v for k, v of offenses
+            }
+        ]
+    }
+    ctx = $('#offense_chart').get(0).getContext('2d')
+    chart = new Chart(ctx).Bar(data)

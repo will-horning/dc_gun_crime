@@ -8,7 +8,7 @@ MAP_CENTER = [38.907, -77.0368];
 MAP_ZOOM = 11;
 
 $(document).ready(function() {
-  var date_end, date_start, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, popupTemplate, popupValues, source, _i, _len;
+  var chart, crime, ctx, data, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
   source = $('#popup-template').html();
   popupTemplate = Handlebars.compile(source);
   L.Icon.Default.imagePath = 'static/images';
@@ -50,7 +50,7 @@ $(document).ready(function() {
       max: date_end
     }
   });
-  return $('#slider').on('valuesChanging', function(e, data) {
+  $('#slider').on('valuesChanging', function(e, data) {
     var date, marker, _j, _len1, _ref, _results;
     _results = [];
     for (_j = 0, _len1 = matchMarkerPairs.length; _j < _len1; _j++) {
@@ -70,6 +70,46 @@ $(document).ready(function() {
     }
     return _results;
   });
+  offenses = {};
+  for (_j = 0, _len1 = matches.length; _j < _len1; _j++) {
+    _ref = matches[_j], shot = _ref[0], crime = _ref[1];
+    if (crime.OFFENSE in offenses) {
+      offenses[crime.OFFENSE] += 1;
+    } else {
+      offenses[crime.OFFENSE] = 1;
+    }
+  }
+  data = {
+    labels: (function() {
+      var _results;
+      _results = [];
+      for (k in offenses) {
+        v = offenses[k];
+        _results.push(k);
+      }
+      return _results;
+    })(),
+    datasets: [
+      {
+        label: 'My First dataset',
+        fillColor: '#ff0000',
+        strokeColor: 'rgba(220,220,220,0.8)',
+        highlightFill: 'rgba(220,220,220,0.75)',
+        highlightStroke: 'rgba(220,220,220,1)',
+        data: (function() {
+          var _results;
+          _results = [];
+          for (k in offenses) {
+            v = offenses[k];
+            _results.push(v);
+          }
+          return _results;
+        })()
+      }
+    ]
+  };
+  ctx = $('#offense_chart').get(0).getContext('2d');
+  return chart = new Chart(ctx).Bar(data);
 });
 
 
