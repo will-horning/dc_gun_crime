@@ -1,4 +1,4 @@
-import os
+import os, utm
 from datetime import datetime
 from ming import collection, Field, Document, schema, Session, create_datastore
 
@@ -6,8 +6,6 @@ MONGO_URL = os.environ.get('MONGO_URL', 'mim://dc_gun_crime')
 
 db_bind = create_datastore(MONGO_URL)
 db_session = Session(db_bind)
-
-
 
 Crime = collection(
     'crime', db_session,
@@ -32,17 +30,21 @@ Crime = collection(
     Field('VOTING_PRECINCT', str),
     Field('START_DATE', datetime, if_missing=datetime.utcnow),
     Field('END_DATE', datetime, if_missing=datetime.utcnow),
-    Field('LAT', float),
-    Field('LON', float)
+    Field('lat', float),
+    Field('lon', float),
+    Field('utm_lat', float),
+    Field('utm_lon', float)
 )
 
 ShotSpotterEvent = collection(
     'shot_spotter_event', db_session,
     Field('_id', schema.ObjectId),
-    Field('Coverage Area', str),
-    Field('Incident ID', str),
-    Field('Date Time', datetime),
+    Field('Coverage_Area', str),
+    Field('Incident_ID', str),
+    Field('Date_Time', datetime),
     Field('Type', str),
-    Field('Latitude-100meter', float),
-    Field('Longitude-100meter', float)
+    Field('lat', float),
+    Field('lon', float),
+    Field('utm_lat', float),
+    Field('utm_lon', float)
 )
