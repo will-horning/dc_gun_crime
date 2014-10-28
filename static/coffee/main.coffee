@@ -1,8 +1,12 @@
 matches = require '../json/matches.json'
 
 MAP_CENTER = [38.907, -77.0368]
-MAP_ZOOM = 11
+MAP_ZOOM = 11 
+
+
 $(document).ready -> 
+    source = $('#popup-template').html()
+    popupTemplate = Handlebars.compile(source)
     L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
     L.tileLayer(
@@ -13,10 +17,15 @@ $(document).ready ->
     matchMarkers = L.layerGroup().addTo(map)
     matchMarkerPairs = []
     for match in matches
-        lat = match[0]['Latitude-100meter']
-        lng = match[0]['Longitude-100meter']
+        lat = match[0]['lat']
+        lng = match[0]['lon']
         m = L.marker([lat, lng], {icon: L.icon({iconUrl: 'static/images/shooting.png'})})
-        m.bindPopup(L.popup({className: 'matchPopup'}).setContent('foobar'))
+        popupValues = {
+            OFFENSE: match[1].OFFENSE, 
+            BLOCKSITEADDRESS: match[1].BLOCKSITEADDRESS,
+            REPORTDATETIME: new Date(match[1].REPORTDATETIME['$date'])
+        }
+        m.bindPopup(L.popup({className: 'matchPopup'}).setContent(popupTemplate(match[1])))
         matchMarkers.addLayer(m)
         matchMarkerPairs.push([match, m])
 
@@ -35,9 +44,9 @@ $(document).ready ->
 
     $('#slider').on('valuesChanging', (e, data) ->
         for [match, marker] in matchMarkerPairs
-            lat = match[0]['Latitude-100meter']
-            lng = match[0]['Longitude-100meter']
-            date = new Date(match[0]['Date_Time_UT'] * 1000)
+            lat = match[0]['lat']
+            lng = match[0]['lon']
+            date = new Date(match[0].Date_Time)
             if date > data.values.min and date < data.values.max
                 if not matchMarkers.hasLayer(marker)
                     matchMarkers.addLayer(marker)

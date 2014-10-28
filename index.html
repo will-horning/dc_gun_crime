@@ -20,8 +20,15 @@
     <script type="text/javascript" src="static/js/lib/jquery-ui-timepicker-addon.js"></script>
     <script type="text/javascript" src="static/js/lib/jQDateRangeSlider-min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="static/js/lib/handlebars-v2.0.0.js"></script>
     <script type="text/javascript" src="static/js/lib/main.js"></script>
-
+    <script id="popup-template" type="text/x-handlebars-template">
+    <div class="popup">
+      <p>{{OFFENSE}}</p>
+      <p>{{BLOCKSITEADDRESS}}</p>
+      <p>{{REPORTDATETIME}}</p>
+    </div>
+    </script>
 
     <title>DC Gun Crime</title>
   </head>
