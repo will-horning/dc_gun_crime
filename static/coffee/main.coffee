@@ -16,21 +16,30 @@ $(document).ready ->
     
     matchMarkers = L.layerGroup().addTo(map)
     matchMarkerPairs = []
-    for match in matches
-        lat = match[0]['lat']
-        lng = match[0]['lon']
-        m = L.marker([lat, lng], {icon: L.icon({iconUrl: 'static/images/shooting.png'})})
+    for [shot, crime] in matches
+        latlng = [shot['lat'], shot['lon']]
+        crime_date = new Date(crime.REPORTDATETIME)
+        month = crime_date.getMonth()
+        day = crime_date.getDate()
+        console.log month, day
+        if (month == 6 and day == 3) or (month == 0 and day == 1) or (month == 11 and day == 31)
+            console.log crime
+            icon = L.icon({iconUrl: 'static/images/fireworks_shooting.png'})
+        else
+            icon = L.icon({iconUrl: 'static/images/shooting.png'})
+        m = L.marker(latlng, {icon: icon})
         popupValues = {
-            OFFENSE: match[1].OFFENSE, 
-            BLOCKSITEADDRESS: match[1].BLOCKSITEADDRESS,
-            REPORTDATETIME: new Date(match[1].REPORTDATETIME['$date'])
+            OFFENSE: crime.OFFENSE, 
+            BLOCKSITEADDRESS: crime.BLOCKSITEADDRESS,
+            REPORTDATETIME: crime_date
         }
-        m.bindPopup(L.popup({className: 'matchPopup'}).setContent(popupTemplate(match[1])))
+        m.bindPopup(L.popup({className: 'matchPopup'}).setContent(popupTemplate(crime)))
         matchMarkers.addLayer(m)
-        matchMarkerPairs.push([match, m])
+        matchMarkerPairs.push([[shot, crime], m])
 
     date_start = new Date(2011, 1, 2, 11, 20)
     date_end = new Date(2013, 6, 22, 21, 55)
+
     $("#slider").dateRangeSlider({
         bounds: {
             min: date_start,
@@ -42,8 +51,6 @@ $(document).ready ->
         }
     })
 
-
- 
     offenses = {}
     for [shot, crime] in matches
         if crime.OFFENSE of offenses

@@ -8,7 +8,7 @@ MAP_CENTER = [38.907, -77.0368];
 MAP_ZOOM = 11;
 
 $(document).ready(function() {
-  var chart, crime, crimes_in_range, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
+  var chart, crime, crime_date, crimes_in_range, date_end, date_start, day, icon, k, latlng, m, map, matchMarkerPairs, matchMarkers, month, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref, _ref1;
   source = $('#popup-template').html();
   popupTemplate = Handlebars.compile(source);
   L.Icon.Default.imagePath = 'static/images';
@@ -19,24 +19,35 @@ $(document).ready(function() {
   matchMarkers = L.layerGroup().addTo(map);
   matchMarkerPairs = [];
   for (_i = 0, _len = matches.length; _i < _len; _i++) {
-    match = matches[_i];
-    lat = match[0]['lat'];
-    lng = match[0]['lon'];
-    m = L.marker([lat, lng], {
-      icon: L.icon({
+    _ref = matches[_i], shot = _ref[0], crime = _ref[1];
+    latlng = [shot['lat'], shot['lon']];
+    crime_date = new Date(crime.REPORTDATETIME);
+    month = crime_date.getMonth();
+    day = crime_date.getDate();
+    console.log(month, day);
+    if ((month === 6 && day === 3) || (month === 0 && day === 1) || (month === 11 && day === 31)) {
+      console.log(crime);
+      icon = L.icon({
+        iconUrl: 'static/images/fireworks_shooting.png'
+      });
+    } else {
+      icon = L.icon({
         iconUrl: 'static/images/shooting.png'
-      })
+      });
+    }
+    m = L.marker(latlng, {
+      icon: icon
     });
     popupValues = {
-      OFFENSE: match[1].OFFENSE,
-      BLOCKSITEADDRESS: match[1].BLOCKSITEADDRESS,
-      REPORTDATETIME: new Date(match[1].REPORTDATETIME['$date'])
+      OFFENSE: crime.OFFENSE,
+      BLOCKSITEADDRESS: crime.BLOCKSITEADDRESS,
+      REPORTDATETIME: crime_date
     };
     m.bindPopup(L.popup({
       className: 'matchPopup'
-    }).setContent(popupTemplate(match[1])));
+    }).setContent(popupTemplate(crime)));
     matchMarkers.addLayer(m);
-    matchMarkerPairs.push([match, m]);
+    matchMarkerPairs.push([[shot, crime], m]);
   }
   date_start = new Date(2011, 1, 2, 11, 20);
   date_end = new Date(2013, 6, 22, 21, 55);
@@ -52,7 +63,7 @@ $(document).ready(function() {
   });
   offenses = {};
   for (_j = 0, _len1 = matches.length; _j < _len1; _j++) {
-    _ref = matches[_j], shot = _ref[0], crime = _ref[1];
+    _ref1 = matches[_j], shot = _ref1[0], crime = _ref1[1];
     if (crime.OFFENSE in offenses) {
       offenses[crime.OFFENSE] += 1;
     } else {
@@ -96,11 +107,11 @@ $(document).ready(function() {
   });
   crimes_in_range = [];
   $('#slider').on('valuesChanging', function(e, data) {
-    var date, marker, _k, _len2, _ref1, _results;
+    var date, lat, lng, marker, match, _k, _len2, _ref2, _results;
     crimes_in_range = [];
     _results = [];
     for (_k = 0, _len2 = matchMarkerPairs.length; _k < _len2; _k++) {
-      _ref1 = matchMarkerPairs[_k], match = _ref1[0], marker = _ref1[1];
+      _ref2 = matchMarkerPairs[_k], match = _ref2[0], marker = _ref2[1];
       lat = match[0]['lat'];
       lng = match[0]['lon'];
       date = new Date(match[0].Date_Time);
