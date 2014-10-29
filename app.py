@@ -7,8 +7,6 @@ cake = Cake(app)
 
 @app.route('/', methods=['GET'])
 def index():
-    # with open('./index.html', 'w') as f:
-    #     f.write(render_template('index.html').replace('/static', 'static'))
     return render_template('index.html')
 
 if __name__ == '__main__':
