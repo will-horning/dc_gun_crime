@@ -8,7 +8,7 @@ MAP_CENTER = [38.907, -77.0368];
 MAP_ZOOM = 11;
 
 $(document).ready(function() {
-  var chart, crime, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offense_data, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
+  var chart, crime, crimes_in_range, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
   source = $('#popup-template').html();
   popupTemplate = Handlebars.compile(source);
   L.Icon.Default.imagePath = 'static/images';
@@ -50,26 +50,6 @@ $(document).ready(function() {
       max: date_end
     }
   });
-  $('#slider').on('valuesChanging', function(e, data) {
-    var date, marker, _j, _len1, _ref, _results;
-    _results = [];
-    for (_j = 0, _len1 = matchMarkerPairs.length; _j < _len1; _j++) {
-      _ref = matchMarkerPairs[_j], match = _ref[0], marker = _ref[1];
-      lat = match[0]['lat'];
-      lng = match[0]['lon'];
-      date = new Date(match[0].Date_Time);
-      if (date > data.values.min && date < data.values.max) {
-        if (!matchMarkers.hasLayer(marker)) {
-          _results.push(matchMarkers.addLayer(marker));
-        } else {
-          _results.push(void 0);
-        }
-      } else {
-        _results.push(matchMarkers.removeLayer(marker));
-      }
-    }
-    return _results;
-  });
   offenses = {};
   for (_j = 0, _len1 = matches.length; _j < _len1; _j++) {
     _ref = matches[_j], shot = _ref[0], crime = _ref[1];
@@ -79,31 +59,20 @@ $(document).ready(function() {
       offenses[crime.OFFENSE] = 1;
     }
   }
-  offense_data = ['offenses'].concat((function() {
-    var _results;
-    _results = [];
-    for (k in offenses) {
-      v = offenses[k];
-      _results.push(v);
-    }
-    return _results;
-  })());
-  console.log(offense_data);
-  console.log([
-    (function() {
-      var _results;
-      _results = [];
-      for (k in offenses) {
-        v = offenses[k];
-        _results.push(k);
-      }
-      return _results;
-    })()
-  ]);
-  return chart = c3.generate({
+  chart = c3.generate({
     bindto: '#offense-chart',
     data: {
-      columns: [offense_data],
+      columns: [
+        ['offenses'].concat((function() {
+          var _results;
+          _results = [];
+          for (k in offenses) {
+            v = offenses[k];
+            _results.push(v);
+          }
+          return _results;
+        })())
+      ],
       types: {
         offenses: 'bar'
       }
@@ -124,6 +93,54 @@ $(document).ready(function() {
       },
       rotated: true
     }
+  });
+  crimes_in_range = [];
+  $('#slider').on('valuesChanging', function(e, data) {
+    var date, marker, _k, _len2, _ref1, _results;
+    crimes_in_range = [];
+    _results = [];
+    for (_k = 0, _len2 = matchMarkerPairs.length; _k < _len2; _k++) {
+      _ref1 = matchMarkerPairs[_k], match = _ref1[0], marker = _ref1[1];
+      lat = match[0]['lat'];
+      lng = match[0]['lon'];
+      date = new Date(match[0].Date_Time);
+      if (date > data.values.min && date < data.values.max) {
+        crimes_in_range.push(match[1]);
+        if (!matchMarkers.hasLayer(marker)) {
+          _results.push(matchMarkers.addLayer(marker));
+        } else {
+          _results.push(void 0);
+        }
+      } else {
+        _results.push(matchMarkers.removeLayer(marker));
+      }
+    }
+    return _results;
+  });
+  return $('#slider').on('valuesChanged', function(e, data) {
+    var _k, _len2;
+    offenses = {};
+    for (_k = 0, _len2 = crimes_in_range.length; _k < _len2; _k++) {
+      crime = crimes_in_range[_k];
+      if (crime.OFFENSE in offenses) {
+        offenses[crime.OFFENSE] += 1;
+      } else {
+        offenses[crime.OFFENSE] = 1;
+      }
+    }
+    return chart.load({
+      columns: [
+        ['offenses'].concat((function() {
+          var _results;
+          _results = [];
+          for (k in offenses) {
+            v = offenses[k];
+            _results.push(v);
+          }
+          return _results;
+        })())
+      ]
+    });
   });
 });
 

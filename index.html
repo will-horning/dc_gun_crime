@@ -62,7 +62,7 @@
         </h3>
         <p> Map: </p>
         <div id="slider"></div><br>
-        <div id="map" style="position:relative;height:700px"></div>
+        <div id="map" style="position:relative;height:500px"></div>
 
 
         <h3>
@@ -71,12 +71,7 @@
             Converting State Plane Coordinates
         </h3>
         <p>
-          The crime data uses the Maryland state plane coordinate system, whereas the Shotspotter data uses decimal latitude and longitude. Since its easier to use Lat,Lon coordinates with Leaflet, I converted the SPCS coordinates in the crime data to Lat,Lon using the script below. This code depends on the GDAL library, and I could not find a way to get it working inside virtualenv, so if you want to run this script you'll have to run install it globally. 
 
-          <pre>
-          <code class="language-python">
-
-          </code></pre>
 
           <div id="offense-chart"></div>
         </p>

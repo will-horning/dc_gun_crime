@@ -42,17 +42,7 @@ $(document).ready ->
         }
     })
 
-    $('#slider').on('valuesChanging', (e, data) ->
-        for [match, marker] in matchMarkerPairs
-            lat = match[0]['lat']
-            lng = match[0]['lon']
-            date = new Date(match[0].Date_Time)
-            if date > data.values.min and date < data.values.max
-                if not matchMarkers.hasLayer(marker)
-                    matchMarkers.addLayer(marker)
-            else
-                matchMarkers.removeLayer(marker)   
-    )
+
  
     offenses = {}
     for [shot, crime] in matches
@@ -60,23 +50,11 @@ $(document).ready ->
             offenses[crime.OFFENSE] += 1
         else
             offenses[crime.OFFENSE] = 1
-    offense_data = ['offenses'].concat(v for k, v of offenses)
-    console.log offense_data
-    # chart = c3.generate({
-    #     bindto: '#offense-chart',
-    #     data: {
-    #         columns: [
-    #             offense_data
-    #         ]
-    #     }    
-        # })
-    console.log [k for k, v of offenses]
     chart = c3.generate({
         bindto: '#offense-chart',
         data: {
             columns: [
-                
-                offense_data
+                ['offenses'].concat(v for k, v of offenses)
             ],
             types: {
                 offenses: 'bar',
@@ -90,18 +68,31 @@ $(document).ready ->
             rotated: true
         }
     })
-# data = {
-    #     labels: k for k, v of offenses,
-    #     datasets: [
-    #         {
-    #             label: 'My First dataset',
-    #             fillColor: '#ff0000',
-    #             strokeColor: 'rgba(220,220,220,0.8)',
-    #             highlightFill: 'rgba(220,220,220,0.75)',
-    #             highlightStroke: 'rgba(220,220,220,1)',
-    #             data: v for k, v of offenses
-    #         }
-    #     ]
-    # }
-    # ctx = $('#offense_chart').get(0).getContext('2d')
-    # chart = new Chart(ctx).Bar(data)
+
+    crimes_in_range = []
+
+    $('#slider').on('valuesChanging', (e, data) ->
+        crimes_in_range = []
+        for [match, marker] in matchMarkerPairs
+            lat = match[0]['lat']
+            lng = match[0]['lon']
+            date = new Date(match[0].Date_Time)
+            if date > data.values.min and date < data.values.max
+                crimes_in_range.push(match[1])
+                if not matchMarkers.hasLayer(marker)
+                    matchMarkers.addLayer(marker)
+            else
+                matchMarkers.removeLayer(marker)
+    )
+
+    $('#slider').on('valuesChanged', (e, data) ->
+        offenses = {}
+        for crime in crimes_in_range
+            if crime.OFFENSE of offenses
+                offenses[crime.OFFENSE] += 1
+            else
+                offenses[crime.OFFENSE] = 1
+        chart.load({
+            columns: [['offenses'].concat(v for k, v of offenses)]
+        }) 
+    )
