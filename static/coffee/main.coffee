@@ -24,9 +24,18 @@ $(document).ready ->
         console.log month, day
         if (month == 6 and day == 3) or (month == 0 and day == 1) or (month == 11 and day == 31)
             console.log crime
-            icon = L.icon({iconUrl: 'static/images/fireworks_shooting.png'})
+            icon = L.icon({
+                iconUrl: 'static/images/fireworks_shooting.png',
+                iconSize: [32, 32],
+                popupAnchor: [0, 14]
+            })
         else
-            icon = L.icon({iconUrl: 'static/images/shooting.png'})
+
+            icon = L.icon({
+                iconUrl: 'static/images/shooting.png',
+                iconSize: [32, 32],
+                popupAnchor: [0, 14]
+            })
         m = L.marker(latlng, {icon: icon})
         popupValues = {
             OFFENSE: crime.OFFENSE, 
