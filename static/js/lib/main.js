@@ -8,7 +8,7 @@ MAP_CENTER = [38.907, -77.0368];
 MAP_ZOOM = 11;
 
 $(document).ready(function() {
-  var chart, crime, ctx, data, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
+  var chart, crime, date_end, date_start, k, lat, lng, m, map, match, matchMarkerPairs, matchMarkers, offense_data, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref;
   source = $('#popup-template').html();
   popupTemplate = Handlebars.compile(source);
   L.Icon.Default.imagePath = 'static/images';
@@ -79,8 +79,18 @@ $(document).ready(function() {
       offenses[crime.OFFENSE] = 1;
     }
   }
-  data = {
-    labels: (function() {
+  offense_data = ['offenses'].concat((function() {
+    var _results;
+    _results = [];
+    for (k in offenses) {
+      v = offenses[k];
+      _results.push(v);
+    }
+    return _results;
+  })());
+  console.log(offense_data);
+  console.log([
+    (function() {
       var _results;
       _results = [];
       for (k in offenses) {
@@ -88,28 +98,33 @@ $(document).ready(function() {
         _results.push(k);
       }
       return _results;
-    })(),
-    datasets: [
-      {
-        label: 'My First dataset',
-        fillColor: '#ff0000',
-        strokeColor: 'rgba(220,220,220,0.8)',
-        highlightFill: 'rgba(220,220,220,0.75)',
-        highlightStroke: 'rgba(220,220,220,1)',
-        data: (function() {
-          var _results;
-          _results = [];
-          for (k in offenses) {
-            v = offenses[k];
-            _results.push(v);
-          }
-          return _results;
-        })()
+    })()
+  ]);
+  return chart = c3.generate({
+    bindto: '#offense-chart',
+    data: {
+      columns: [offense_data],
+      types: {
+        offenses: 'bar'
       }
-    ]
-  };
-  ctx = $('#offense_chart').get(0).getContext('2d');
-  return chart = new Chart(ctx).Bar(data);
+    },
+    axis: {
+      x: {
+        type: 'category',
+        categories: [
+          (function() {
+            var _results;
+            _results = [];
+            for (k in offenses) {
+              _results.push(k);
+            }
+            return _results;
+          })()
+        ][0]
+      },
+      rotated: true
+    }
+  });
 });
 
 
