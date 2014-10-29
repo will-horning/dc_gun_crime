@@ -1,3 +1,8 @@
+"""
+This is a script to pull all the data out of the original csv and excel
+files, and renames a few fields for convenience.
+"""
+
 import csv, utm
 from datetime import datetime
 from openpyxl import load_workbook

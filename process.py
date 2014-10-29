@@ -1,3 +1,10 @@
+"""
+This script will take the Shotspotter and Crime data and use an interval 
+tree to find all crimes that occur within the defined time range for each 
+shot event. It then refines those matches to only those within 100 meters 
+of eachother. Finally, the matches are written to a JSON file.
+"""
+
 import math, utm, os
 from bson import json_util
 from models import Crime, ShotSpotterEvent
@@ -37,7 +44,6 @@ for shot in shots:
 
 with open(JSON_OUT_PATH, 'w') as f:
 	f.write(json_util.dumps(matches))
-
 
 
 
