@@ -5,8 +5,14 @@ MAP_ZOOM = 11
 
 
 $(document).ready -> 
-    source = $('#popup-template').html()
+    source = "
+        <p>{{OFFENSE}}</p>
+        <p>{{BLOCKSITEADDRESS}}</p>
+        <p>{{REPORTDATETIME}}</p>
+    "
+    console.log source
     popupTemplate = Handlebars.compile(source)
+    console.log(popupTemplate)
     L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
     L.tileLayer(
@@ -42,7 +48,7 @@ $(document).ready ->
             BLOCKSITEADDRESS: crime.BLOCKSITEADDRESS,
             REPORTDATETIME: crime_date
         }
-        m.bindPopup(L.popup({className: 'matchPopup'}).setContent(popupTemplate(crime)))
+        m.bindPopup(L.popup({className: 'matchPopup'}).setContent(popupTemplate(popupValues)))
         matchMarkers.addLayer(m)
         matchMarkerPairs.push([[shot, crime], m])
 
