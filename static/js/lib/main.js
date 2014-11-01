@@ -10,9 +10,7 @@ MAP_ZOOM = 11;
 $(document).ready(function() {
   var chart, crime, crime_date, crimes_in_range, date_end, date_start, day, icon, k, latlng, m, map, matchMarkerPairs, matchMarkers, month, offenses, popupTemplate, popupValues, shot, source, v, _i, _j, _len, _len1, _ref, _ref1;
   source = "<p>{{OFFENSE}}</p> <p>{{BLOCKSITEADDRESS}}</p> <p>{{REPORTDATETIME}}</p>";
-  console.log(source);
   popupTemplate = Handlebars.compile(source);
-  console.log(popupTemplate);
   L.Icon.Default.imagePath = 'static/images';
   map = L.map('map').setView(MAP_CENTER, MAP_ZOOM);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -26,13 +24,11 @@ $(document).ready(function() {
     crime_date = new Date(crime.REPORTDATETIME);
     month = crime_date.getMonth();
     day = crime_date.getDate();
-    console.log(month, day);
     if ((month === 6 && day === 3) || (month === 0 && day === 1) || (month === 11 && day === 31)) {
-      console.log(crime);
       icon = L.icon({
         iconUrl: 'static/images/fireworks_shooting.png',
         iconSize: [32, 32],
-        popupAnchor: [0, 14]
+        popupAnchor: [0, 12]
       });
     } else {
       icon = L.icon({

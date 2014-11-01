@@ -10,9 +10,7 @@ $(document).ready ->
         <p>{{BLOCKSITEADDRESS}}</p>
         <p>{{REPORTDATETIME}}</p>
     "
-    console.log source
     popupTemplate = Handlebars.compile(source)
-    console.log(popupTemplate)
     L.Icon.Default.imagePath = 'static/images'
     map = L.map('map').setView(MAP_CENTER, MAP_ZOOM)
     L.tileLayer(
@@ -27,13 +25,11 @@ $(document).ready ->
         crime_date = new Date(crime.REPORTDATETIME)
         month = crime_date.getMonth()
         day = crime_date.getDate()
-        console.log month, day
         if (month == 6 and day == 3) or (month == 0 and day == 1) or (month == 11 and day == 31)
-            console.log crime
             icon = L.icon({
                 iconUrl: 'static/images/fireworks_shooting.png',
                 iconSize: [32, 32],
-                popupAnchor: [0, 14]
+                popupAnchor: [0, 12]
             })
         else
 
